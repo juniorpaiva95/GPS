@@ -29,6 +29,7 @@
 
             <li><a href="{{ backpack_url('cliente') }}"><i class="fa fa-users"></i> <span>Clientes</span></a></li>
             <li><a href="{{ backpack_url('produto') }}"><i class="fa fa-shopping-bag"></i> <span>Produtos</span></a></li>
+            <li><a href="{{ backpack_url('vendedor') }}"><i class="fa fa-user"></i> <span>Vendedores</span></a></li>
 
             <!-- Users, Roles Permissions -->
             <li class="treeview">
