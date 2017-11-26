@@ -27,6 +27,9 @@
             <li><a href="{{  backpack_url('elfinder') }}"><i class="fa fa-files-o"></i> <span>File manager</span></a></li>
             <li><a href="{{ backpack_url('log') }}"><i class="fa fa-terminal"></i> <span>Logs</span></a></li>
 
+            <li><a href="{{ backpack_url('cliente') }}"><i class="fa fa-users"></i> <span>Clientes</span></a></li>
+            <li><a href="{{ backpack_url('produto') }}"><i class="fa fa-shopping-bag"></i> <span>Produtos</span></a></li>
+
             <!-- Users, Roles Permissions -->
             <li class="treeview">
               <a href="#"><i class="fa fa-group"></i> <span>Users, Roles, Permissions</span> <i class="fa fa-angle-left pull-right"></i></a>
