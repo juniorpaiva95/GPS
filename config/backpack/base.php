@@ -19,10 +19,10 @@ return [
     'logo_mini' => '<b>A</b>B',
 
     // Developer or company name. Shown in footer.
-    'developer_name' => 'Cristian Tabacitu',
+    'developer_name' => 'Júnior Paiva',
 
     // Developer website. Link in footer.
-    'developer_link' => 'http://tabacitu.ro',
+    'developer_link' => 'http://github.com/juniorpaiva95',
 
     // Show powered by Laravel Backpack in the footer?
     'show_powered_by' => false,

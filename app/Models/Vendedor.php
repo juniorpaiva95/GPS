@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Backpack\CRUD\CrudTrait;
 
@@ -22,7 +23,8 @@ class Vendedor extends Model
      protected $fillable = [
          'nome',
          'salario',
-         'data_nasc'
+         'data_nasc',
+         'user_id'
      ];
     // protected $hidden = [];
     // protected $dates = [];
@@ -38,7 +40,9 @@ class Vendedor extends Model
     | RELATIONS
     |--------------------------------------------------------------------------
     */
-
+    public function user() {
+        return $this->hasOne(User::class, 'id','user_id');
+    }
     /*
     |--------------------------------------------------------------------------
     | SCOPES

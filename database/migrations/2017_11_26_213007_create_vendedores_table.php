@@ -18,6 +18,10 @@ class CreateVendedoresTable extends Migration
             $table->string('nome');
             $table->float('salario');
             $table->date('data_nasc');
+
+            $table->integer('user_id')->unsigned()->unique();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

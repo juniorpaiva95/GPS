@@ -37,8 +37,8 @@ class VendedorCrudController extends CrudController
         // $this->crud->removeFields($array_of_names, 'update/create/both');
         $this->crud->addField(
             [ // image
-                'label' => "Data Nascimento",
                 'name' => "data_nasc",
+                'label' => "Data Nascimento",
                 'type' => 'date_picker',
             ]
         );
@@ -51,16 +51,33 @@ class VendedorCrudController extends CrudController
              'prefix' => "R$",
              'suffix' => ",00",
         ]);
-
+        $this->crud->addField(
+            [  // Select2
+                'label' => "Usuário",
+                'type' => 'select2',
+                'name' => 'user_id', // the db column for the foreign key
+                'entity' => 'user', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+                'model' => "App\User" // foreign key model
+            ]
+        );
+        $this->crud->addColumn([
+            'label' => "Usuário", // Table column heading
+            'type' => "select",
+            'name' => 'user_id', // the column that contains the ID of that connected entity;
+            'key' => 'name', // the column that contains the ID of that connected entity;
+            'entity' => 'user', // the method that defines the relationship in your Model
+            'attribute' => "name", // foreign key attribute that is shown to user
+            'model' => "App\User", // foreign key model
+        ]);
         // ------ CRUD COLUMNS
 
-        // $this->crud->addColumn(); // add a single column, at the end of the stack
+//         $this->crud->addColumn('Usuario'); // add a single column, at the end of the stack
         // $this->crud->addColumns(); // add multiple columns, at the end of the stack
-        // $this->crud->removeColumn('column_name'); // remove a column from the stack
+         $this->crud->removeColumn('user_id'); // remove a column from the stack
         // $this->crud->removeColumns(['column_name_1', 'column_name_2']); // remove an array of columns from the stack
-        // $this->crud->setColumnDetails('column_name', ['attribute' => 'value']); // adjusts the properties of the passed in column (by name)
+//         $this->crud->setColumnDetails('Usuario', ['attribute' => 'salario']); // adjusts the properties of the passed in column (by name)
         // $this->crud->setColumnsDetails(['column_1', 'column_2'], ['attribute' => 'value']);
-
         // ------ CRUD BUTTONS
         // possible positions: 'beginning' and 'end'; defaults to 'beginning' for the 'line' stack, 'end' for the others;
         // $this->crud->addButton($stack, $name, $type, $content, $position); // add a button; possible types are: view, model_function
@@ -72,7 +89,7 @@ class VendedorCrudController extends CrudController
         // $this->crud->removeAllButtonsFromStack('line');
 
         // ------ CRUD ACCESS
-        // $this->crud->allowAccess(['list', 'create', 'update', 'reorder', 'delete']);
+         $this->crud->allowAccess(['list', 'create', 'update', 'reorder', 'delete', 'details_row']);
         // $this->crud->denyAccess(['list', 'create', 'update', 'reorder', 'delete']);
 
         // ------ CRUD REORDER
@@ -80,7 +97,7 @@ class VendedorCrudController extends CrudController
         // NOTE: you also need to do allow access to the right users: $this->crud->allowAccess('reorder');
 
         // ------ CRUD DETAILS ROW
-        // $this->crud->enableDetailsRow();
+        $this->crud->enableDetailsRow();
         // NOTE: you also need to do allow access to the right users: $this->crud->allowAccess('details_row');
         // NOTE: you also need to do overwrite the showDetailsRow($id) method in your EntityCrudController to show whatever you'd like in the details row OR overwrite the views/backpack/crud/details_row.blade.php
 
@@ -93,12 +110,13 @@ class VendedorCrudController extends CrudController
         // Please note the drawbacks of this though:
         // - 1-n and n-n columns are not searchable
         // - date and datetime columns won't be sortable anymore
-        // $this->crud->enableAjaxTable();
+         $this->crud->enableAjaxTable();
 
         // ------ DATATABLE EXPORT BUTTONS
         // Show export to PDF, CSV, XLS and Print buttons on the table view.
         // Does not work well with AJAX datatables.
-        // $this->crud->enableExportButtons();
+         $this->crud->enableExportButtons();
+         $this->crud->with('user');
 
         // ------ ADVANCED QUERIES
         // $this->crud->addClause('active');
@@ -114,6 +132,15 @@ class VendedorCrudController extends CrudController
         // $this->crud->orderBy();
         // $this->crud->groupBy();
         // $this->crud->limit();
+    }
+    public  function index()
+    {
+        $this->crud->hasAccessOrFail('list');
+
+        $this->data['crud'] = $this->crud;
+        $this->data['title'] = ucfirst($this->crud->entity_name_plural);
+        // load the view from /resources/views/vendor/backpack/crud/ if it exists, otherwise load the one in the package
+        return view($this->crud->getListView(), $this->data);
     }
 
     public function store(StoreRequest $request)
@@ -132,5 +159,16 @@ class VendedorCrudController extends CrudController
         // your additional operations after save here
         // use $this->data['entry'] or $this->crud->entry
         return $redirect_location;
+    }
+
+    public function showDetailsRow($id)
+    {
+        $this->crud->hasAccessOrFail('details_row');
+
+        $this->data['entry'] = $this->crud->getEntry($id);
+        $this->data['crud'] = $this->crud;
+
+        // load the view from /resources/views/vendor/backpack/crud/ if it exists, otherwise load the one in the package
+        return view($this->crud->getDetailsRowView(), $this->data);
     }
 }
