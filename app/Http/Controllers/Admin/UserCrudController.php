@@ -22,7 +22,7 @@ class UserCrudController extends CrudController
         $this->crud->setEntityNameStrings(trans('backpack::permissionmanager.user'), trans('backpack::permissionmanager.users'));
         $this->crud->setRoute(config('backpack.base.route_prefix').'/user');
         $this->crud->enableAjaxTable();
-
+        $this->crud->setCreateView('create');
         // Columns.
         $this->crud->setColumns([
             [
@@ -55,28 +55,39 @@ class UserCrudController extends CrudController
 
         // Fields
         $this->crud->addFields([
+            [   // Checkbox
+                'name' => 'vendedor',
+                'label' => 'Vendedor',
+                'type' => 'checkbox',
+                'tab' => 'Informações do Usuário'
+            ],
             [
                 'name'  => 'name',
                 'label' => trans('backpack::permissionmanager.name'),
                 'type'  => 'text',
+                'tab' => 'Informações do Usuário'
             ],
             [
                 'name'  => 'email',
                 'label' => trans('backpack::permissionmanager.email'),
                 'type'  => 'email',
+                'tab' => 'Informações do Usuário'
             ],
             [
                 'name'  => 'password',
                 'label' => trans('backpack::permissionmanager.password'),
                 'type'  => 'password',
+                'tab' => 'Informações do Usuário'
             ],
             [
                 'name'  => 'password_confirmation',
                 'label' => trans('backpack::permissionmanager.password_confirmation'),
                 'type'  => 'password',
+                'tab' => 'Informações do Usuário'
             ],
             [
                 // two interconnected entities
+                'tab' => 'Nível de Acesso',
                 'label'             => trans('backpack::permissionmanager.user_role_permission'),
                 'field_unique_name' => 'user_role_permission',
                 'type'              => 'checklist_dependency',
